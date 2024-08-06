@@ -1,0 +1,6 @@
+@GameNest.Api_HostAddress = http://localhost:5094
+
+GET {{GameNest.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
