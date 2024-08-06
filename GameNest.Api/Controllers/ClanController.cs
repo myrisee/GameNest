@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameNest.WebApi.Controllers
 {
-    public class ClanController(IMediator mediator, IMapper mapper) : ControllerBase
+    /*public class ClanController(IMediator mediator, IMapper mapper) : ControllerBase
     {
         [HttpPost]
         public async Task<ClanModel> CreateClan([FromBody] CreateClanCommand createClanCommand)
@@ -15,5 +15,5 @@ namespace GameNest.WebApi.Controllers
             var result = await mediator.Send(createClanCommand);
             return mapper.Map<ClanModel>(result);
         }
-    }
+    }*/
 }

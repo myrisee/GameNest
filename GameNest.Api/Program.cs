@@ -11,11 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<GameNestContext>();
-
+builder.Services.AddScoped<JwtOptions>();
+builder.Services.AddScoped<JwtProvider>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IPlayerRepository), typeof(PlayerRepository));
 builder.Services.AddScoped(typeof(IItemRepository), typeof(ItemRepository));
 builder.Services.AddScoped(typeof(IItemInstanceRepository), typeof(ItemInstanceRepository));
+builder.Services.AddScoped(typeof(IClanRepository), typeof(ClanRepository));
+
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreatePlayerCommandHandler).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
