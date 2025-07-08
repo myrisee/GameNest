@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameNest.Application.Interfaces;
+﻿using GameNest.Application.Interfaces;
 using GameNest.Domain.Entities;
 using GameNest.Persistence.Context;
 using Microsoft.EntityFrameworkCore;

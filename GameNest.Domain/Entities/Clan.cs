@@ -12,6 +12,6 @@ namespace GameNest.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid LeaderId { get; set; }
-        public List<Player> Members { get; set; }
+        public List<Account> Members { get; set; }
     }
 }

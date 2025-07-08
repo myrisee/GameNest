@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using GameNest.Application.CQRS.Requests;
 using GameNest.Domain.Entities;
-using GameNest.Shared.ViewModels;
-using GameNest.Domain.Entities;
+using GameNest.Shared.MessagePacks;
 using GameNest.Shared.ViewModels;
 
-namespace GameNest.WebApi
+namespace GameNest.RealtimeApi
 {
     public class MappingProfile : Profile
     {
@@ -15,6 +15,8 @@ namespace GameNest.WebApi
             CreateMap<Account, AccountModel>().ReverseMap();
             CreateMap<Item, ItemModel>().ReverseMap();
             CreateMap<Clan, ClanModel>().ReverseMap();
+            CreateMap<RegisterMessage, RegisterRequest>().ReverseMap();
+            CreateMap<LoginMessage, LoginRequest>().ReverseMap();
         }
     }
 }

@@ -15,13 +15,13 @@ namespace GameNest.Application.CQRS.Commands
         public string Name { get; set; }
     }
 
-    public class CreateClanCommandHandler(IHttpContextAccessor httpContextAccessor, IPlayerRepository playerRepository, IClanRepository clanRepository) : IRequestHandler<CreateClanCommand, Clan>
+    public class CreateClanCommandHandler(IHttpContextAccessor httpContextAccessor, IAccountRepository accountRepository, IClanRepository clanRepository) : IRequestHandler<CreateClanCommand, Clan>
     {
         public async Task<Clan> Handle(CreateClanCommand command, CancellationToken cancellationToken)
         {
             httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var token);
             var guid = Guid.Parse(token);
-            var requester = await playerRepository.GetByGuidAsync(guid);
+            var requester = await accountRepository.GetByGuidAsync(guid);
 
             if (requester == null)
             {

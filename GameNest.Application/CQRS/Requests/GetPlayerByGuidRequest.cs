@@ -9,16 +9,16 @@ using MediatR;
 
 namespace GameNest.Application.CQRS.Queries
 {
-    public class GetPlayerByGuidRequest : IRequest<Player>
+    public class GetPlayerByGuidRequest : IRequest<Account>
     {
         public Guid Id { get; set; }
     }
 
-    public class GetPlayerByGuidRequestHandler(IPlayerRepository playerRepository) : IRequestHandler<GetPlayerByGuidRequest, Player>
+    public class GetPlayerByGuidRequestHandler(IAccountRepository accountRepository) : IRequestHandler<GetPlayerByGuidRequest, Account>
     {
-        public Task<Player> Handle(GetPlayerByGuidRequest request, CancellationToken cancellationToken)
+        public Task<Account> Handle(GetPlayerByGuidRequest request, CancellationToken cancellationToken)
         {
-            return playerRepository.GetByGuidAsync(request.Id);
+            return accountRepository.GetByGuidAsync(request.Id);
         }
     }
 }

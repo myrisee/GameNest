@@ -11,21 +11,30 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace GameNest.Infrastructure.Authentication
 {
-    public class JwtProvider(JwtOptions jwtOptions) : IJwtProvider
+    public class JwtProvider : IJwtProvider
     {
-        public string GenerateToken(Player player)
+        private readonly JwtOptions _jwtOptions;
+
+        public JwtProvider(Microsoft.Extensions.Options.IOptions<JwtOptions> options)
         {
+            _jwtOptions = options.Value;
+            Console.WriteLine($"[JwtProvider] Secret from config: '{_jwtOptions.Secret}'");
+        }
+
+        public string GenerateToken(Account account)
+        {
+            Console.WriteLine($"[JwtProvider.GenerateToken] Secret: '{_jwtOptions.Secret}'");
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier,player.Id.ToString()),
-                new Claim(ClaimTypes.Name, player.Username)
+                new Claim(ClaimTypes.NameIdentifier,account.Id.ToString()),
+                new Claim(ClaimTypes.Name, account.Username)
             };
 
             var signingCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret)),SecurityAlgorithms.HmacSha256);
+                new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Secret)),SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                               issuer: jwtOptions.Issuer,
-                               audience: jwtOptions.Audience,
+                               issuer: _jwtOptions.Issuer,
+                               audience: _jwtOptions.Audience,
                                claims:claims,
                                expires: DateTime.Now.AddMinutes(30),
                                signingCredentials:signingCredentials

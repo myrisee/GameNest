@@ -4,6 +4,7 @@ using GameNest.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameNest.Persistence.Migrations
 {
     [DbContext(typeof(GameNestContext))]
-    partial class GameNestContextModelSnapshot : ModelSnapshot
+    [Migration("20250708201021_FixLoadoutAccountRelation2")]
+    partial class FixLoadoutAccountRelation2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -301,16 +304,16 @@ namespace GameNest.Persistence.Migrations
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ChestId")
+                    b.Property<Guid>("ChestId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("HelmetId")
+                    b.Property<Guid>("HelmetId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("MainId")
+                    b.Property<Guid>("MainId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("SecondaryId")
+                    b.Property<Guid>("SecondaryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -368,22 +371,26 @@ namespace GameNest.Persistence.Migrations
                     b.HasOne("GameNest.Domain.Entities.ItemInstance", "Chest")
                         .WithMany()
                         .HasForeignKey("ChestId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("GameNest.Domain.Entities.ItemInstance", "Helmet")
                         .WithMany()
                         .HasForeignKey("HelmetId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("GameNest.Domain.Entities.ItemInstance", "Main")
                         .WithMany()
                         .HasForeignKey("MainId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("GameNest.Domain.Entities.ItemInstance", "Secondary")
                         .WithMany()
                         .HasForeignKey("SecondaryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Account");
 

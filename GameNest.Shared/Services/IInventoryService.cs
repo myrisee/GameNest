@@ -7,8 +7,8 @@ using MagicOnion;
 
 namespace GameNest.Shared.Services
 {
-    public interface IInventoryController : IService<IInventoryController>
+    public interface IInventoryService : IService<IInventoryService>
     {
-
+        
     }
 }

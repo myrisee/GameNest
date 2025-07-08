@@ -9,6 +9,6 @@ namespace GameNest.Application.Interfaces
 {
     public interface IJwtProvider
     {
-        public string GenerateToken(Player player);
+        public string GenerateToken(Account account);
     }
 }

@@ -9,13 +9,13 @@ using GameNest.Application.Interfaces;
 
 namespace GameNest.Application.CQRS.Requests
 {
-    public class GetAllPlayersRequest : IRequest<List<Player>>{}
+    public class GetAllPlayersRequest : IRequest<List<Account>>{}
 
-    public class GetAllPlayerRequestHandler(IPlayerRepository playerRepository) : IRequestHandler<GetAllPlayersRequest, List<Player>>
+    public class GetAllPlayerRequestHandler(IAccountRepository accountRepository) : IRequestHandler<GetAllPlayersRequest, List<Account>>
     {
-        public Task<List<Player>> Handle(GetAllPlayersRequest request, CancellationToken cancellationToken)
+        public Task<List<Account>> Handle(GetAllPlayersRequest request, CancellationToken cancellationToken)
         {
-            return playerRepository.GetAllAsync();
+            return accountRepository.GetAllAsync();
         }
     }
 }

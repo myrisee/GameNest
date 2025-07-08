@@ -4,6 +4,7 @@ using GameNest.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameNest.Persistence.Migrations
 {
     [DbContext(typeof(GameNestContext))]
-    partial class GameNestContextModelSnapshot : ModelSnapshot
+    [Migration("20250708195400_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,6 +61,10 @@ namespace GameNest.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClanId");
+
+                    b.HasIndex("LoadoutId")
+                        .IsUnique()
+                        .HasFilter("[LoadoutId] IS NOT NULL");
 
                     b.ToTable("Accounts");
                 });
@@ -298,25 +305,19 @@ namespace GameNest.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AccountId")
+                    b.Property<Guid>("ChestId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ChestId")
+                    b.Property<Guid>("HelmetId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("HelmetId")
+                    b.Property<Guid>("MainId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("MainId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SecondaryId")
+                    b.Property<Guid>("SecondaryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
 
                     b.HasIndex("ChestId");
 
@@ -335,7 +336,13 @@ namespace GameNest.Persistence.Migrations
                         .WithMany("Members")
                         .HasForeignKey("ClanId");
 
+                    b.HasOne("GameNest.Domain.Entities.Loadout", "Loadout")
+                        .WithOne("Account")
+                        .HasForeignKey("GameNest.Domain.Entities.Account", "LoadoutId");
+
                     b.Navigation("Clan");
+
+                    b.Navigation("Loadout");
                 });
 
             modelBuilder.Entity("GameNest.Domain.Entities.ItemInstance", b =>
@@ -359,33 +366,29 @@ namespace GameNest.Persistence.Migrations
 
             modelBuilder.Entity("GameNest.Domain.Entities.Loadout", b =>
                 {
-                    b.HasOne("GameNest.Domain.Entities.Account", "Account")
-                        .WithOne("Loadout")
-                        .HasForeignKey("GameNest.Domain.Entities.Loadout", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GameNest.Domain.Entities.ItemInstance", "Chest")
                         .WithMany()
                         .HasForeignKey("ChestId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("GameNest.Domain.Entities.ItemInstance", "Helmet")
                         .WithMany()
                         .HasForeignKey("HelmetId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("GameNest.Domain.Entities.ItemInstance", "Main")
                         .WithMany()
                         .HasForeignKey("MainId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("GameNest.Domain.Entities.ItemInstance", "Secondary")
                         .WithMany()
                         .HasForeignKey("SecondaryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Account");
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Chest");
 
@@ -399,13 +402,17 @@ namespace GameNest.Persistence.Migrations
             modelBuilder.Entity("GameNest.Domain.Entities.Account", b =>
                 {
                     b.Navigation("Items");
-
-                    b.Navigation("Loadout");
                 });
 
             modelBuilder.Entity("GameNest.Domain.Entities.Clan", b =>
                 {
                     b.Navigation("Members");
+                });
+
+            modelBuilder.Entity("GameNest.Domain.Entities.Loadout", b =>
+                {
+                    b.Navigation("Account")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

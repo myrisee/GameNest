@@ -11,7 +11,7 @@ namespace GameNest.Domain.Entities
     {
         public Guid Id { get; set; }
         public Guid PlayerId { get; set; }
-        public virtual Player Player { get; set; }
+        public virtual Account Account { get; set; }
         public virtual Item Item { get; set; }
     }
 }

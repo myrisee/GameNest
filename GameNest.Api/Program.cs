@@ -3,6 +3,7 @@ using GameNest.Persistence.Context;
 using GameNest.Persistence.Repository;
 using GameNest.WebApi;
 using GameNest.Application.CQRS.Commands;
+using GameNest.Application.CQRS.Requests;
 using GameNest.Infrastructure.Authentication;
 using GameNest.WebApi.ConfigureOptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,13 +15,13 @@ builder.Services.AddScoped<GameNestContext>();
 builder.Services.AddScoped<JwtOptions>();
 builder.Services.AddScoped<JwtProvider>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped(typeof(IPlayerRepository), typeof(PlayerRepository));
+builder.Services.AddScoped(typeof(IAccountRepository), typeof(AccountRepository));
 builder.Services.AddScoped(typeof(IItemRepository), typeof(ItemRepository));
 builder.Services.AddScoped(typeof(IItemInstanceRepository), typeof(ItemInstanceRepository));
 builder.Services.AddScoped(typeof(IClanRepository), typeof(ClanRepository));
 
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreatePlayerCommandHandler).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(RegisterRequest).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddScoped<IPlayerAccessor, PlayerAccessor>();

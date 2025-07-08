@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace GameNest.Domain.Entities
 {
-    public class Player
+    public class Account
     {
         public Guid Id { get; set; }
         public string Username { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public int Level { get; set; }
         public int Coin { get; set; }

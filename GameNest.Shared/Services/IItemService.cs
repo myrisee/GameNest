@@ -8,7 +8,7 @@ using MagicOnion;
 
 namespace GameNest.Shared.Services
 {
-    public interface IItemContoller : IService<IItemContoller>
+    public interface IItemService : IService<IItemService>
     {
         UnaryResult<ItemModel> GetItemAsync(uint itemId);
         UnaryResult<ItemModel> CreateItemAsync(string itemName);
