@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using GameNest.Domain.Entities;
 using GameNest.Shared.ViewModels;
-using GameNest.Domain.Entities;
-using GameNest.Shared.ViewModels;
 
 namespace GameNest.WebApi
 {

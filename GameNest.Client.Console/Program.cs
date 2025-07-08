@@ -34,6 +34,25 @@ while (true)
         });
 
         Console.WriteLine(registerResponse.Success ? "Registration successful!" : "Registration failed: " + registerResponse.Message);
+        // Accounts Items
+        Console.WriteLine("Your items:");
+        foreach (var item in registerResponse.Account.Items)
+        {
+            Console.WriteLine($"Item ID: {item.Id}, Name: {item.Item.Name}, Description: {item.Item.Description}");
+        }
+        
+        // Loadout
+        Console.WriteLine("Your loadout:");
+        if (registerResponse.Account.Loadout != null)
+        {
+            Console.WriteLine($"Main: {registerResponse.Account.Loadout.Main.Item.Name}");
+            Console.WriteLine($"Secondary: {registerResponse.Account.Loadout.Secondary.Item.Name}");
+            Console.WriteLine($"Chest: {registerResponse.Account.Loadout.Chest.Item.Name}");
+        }
+        else
+        {
+            Console.WriteLine("No loadout found.");
+        }
     }
     else if (choice == "2")
     {

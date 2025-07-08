@@ -9,7 +9,18 @@ namespace GameNest.Persistence.Repository
     {
         public Task<Account?> GetByUsernameAndPasswordAsync(string username, string password)
         {
-            return context.Accounts.FirstOrDefaultAsync(p => p.Username == username && p.Password == password);
+            return context.Accounts
+                .Include(a => a.Items)
+                .ThenInclude(ii => ii.Item)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Main)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Secondary)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Chest)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Helmet)
+                .FirstOrDefaultAsync(p => p.Username == username && p.Password == password);
         }
 
         public async Task<Account> CreateAsync(Account entity)
@@ -45,7 +56,18 @@ namespace GameNest.Persistence.Repository
 
         public Task<Account?> GetByUsernameAsync(string username)
         {
-            return context.Accounts.FirstOrDefaultAsync(p => p.Username == username);
+            return context.Accounts
+                .Include(a => a.Items)
+                .ThenInclude(ii => ii.Item)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Main)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Secondary)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Chest)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Helmet)
+                .FirstOrDefaultAsync(p => p.Username == username);
         }
 
         public async Task<Account> UpdateAsync(Account entity)

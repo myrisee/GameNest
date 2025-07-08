@@ -6,7 +6,9 @@ namespace GameNest.Shared.ViewModels
     public class LoadoutModel
     {
         public Guid Id { get; set; }
-        public AccountModel Account { get; set; }
         public ItemInstanceModel Main { get; set; }
+        public ItemInstanceModel Secondary { get; set; }
+        public ItemInstanceModel Helmet { get; set; }
+        public ItemInstanceModel Chest { get; set; }
     }
 }

@@ -69,10 +69,14 @@ public class RegisterRequestHandler(IAccountRepository accountRepository,IItemRe
             // 4. Adım: Account'un LoadoutId'sini güncelle
             await accountRepository.UpdateAsync(player);
 
+            // 5. Adım: Account'u ilişkili verilerle tekrar çek
+            var fullAccount = await accountRepository.GetByUsernameAsync(player.Username);
+
             return new RegisterResponse
             {
                 Success = true,
-                Message = "Registration successful"
+                Message = "Registration successful",
+                Account = mapper.Map<AccountModel>(fullAccount) // ilişkili verilerle dolu account
             };
         }
         catch (Exception e)
