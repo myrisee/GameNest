@@ -5,7 +5,7 @@ using GameNest.Shared.MessagePacks;
 using GameNest.Shared.ViewModels;
 using MediatR;
 
-namespace GameNest.Application.CQRS.Requests;
+namespace GameNest.Application.CQRS.Requests.Auth;
 
 public class RegisterRequest : IRequest<RegisterResponse>
 {
@@ -14,7 +14,7 @@ public class RegisterRequest : IRequest<RegisterResponse>
     public string Email { get; set; }
 }
 
-public class RegisterRequestHandler(IAccountRepository accountRepository,IItemRepository itemRepository,IRepository<Loadout> loadoutRepository,IMapper mapper) : IRequestHandler<RegisterRequest, RegisterResponse>
+public class RegisterRequestHandler(IAccountRepository accountRepository,IItemRepository itemRepository,ILoadoutRepository loadoutRepository,IMapper mapper) : IRequestHandler<RegisterRequest, RegisterResponse>
 {
     public async Task<RegisterResponse> Handle(RegisterRequest request, CancellationToken cancellationToken)
     {
@@ -50,7 +50,7 @@ public class RegisterRequestHandler(IAccountRepository accountRepository,IItemRe
             await accountRepository.CreateAsync(player);
 
             // 2. Adım: Loadout'u oluştur, AccountId'yi set et
-            var loadout = new Loadout
+            var loadout = new Domain.Entities.Loadout
             {
                 Id = Guid.NewGuid(),
                 AccountId = player.Id,
@@ -64,7 +64,7 @@ public class RegisterRequestHandler(IAccountRepository accountRepository,IItemRe
 
             // 3. Adım: Loadout'u context üzerinden ekle ve kaydet
             // (AccountRepository'de context'e erişim yoksa, burada context ile eklenmeli)
-            await loadoutRepository.AddAsync(loadout);
+            await loadoutRepository.CreateLoadoutAsync(loadout);
 
             // 4. Adım: Account'un LoadoutId'sini güncelle
             await accountRepository.UpdateAsync(player);
@@ -75,8 +75,7 @@ public class RegisterRequestHandler(IAccountRepository accountRepository,IItemRe
             return new RegisterResponse
             {
                 Success = true,
-                Message = "Registration successful",
-                Account = mapper.Map<AccountModel>(fullAccount) // ilişkili verilerle dolu account
+                Message = "Registration successful"
             };
         }
         catch (Exception e)

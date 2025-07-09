@@ -4,6 +4,7 @@ using GameNest.Persistence.Repository;
 using GameNest.WebApi;
 using GameNest.Application.CQRS.Commands;
 using GameNest.Application.CQRS.Requests;
+using GameNest.Application.CQRS.Requests.Auth;
 using GameNest.Infrastructure.Authentication;
 using GameNest.WebApi.ConfigureOptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

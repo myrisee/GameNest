@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameNest.Application.CQRS.Requests;
+using GameNest.Application.CQRS.Requests.Auth;
 using GameNest.Domain.Entities;
 using GameNest.Shared.MessagePacks;
 using GameNest.Shared.ViewModels;

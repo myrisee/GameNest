@@ -1,9 +1,8 @@
 ﻿using GameNest.Application.Interfaces;
 using GameNest.Shared.MessagePacks;
-using GameNest.Shared.Services;
 using MediatR;
 
-namespace GameNest.Application.CQRS.Requests;
+namespace GameNest.Application.CQRS.Requests.Auth;
 
 public class LoginRequest : IRequest<LoginResponse>
 {

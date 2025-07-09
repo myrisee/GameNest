@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.Http;
 
 namespace GameNest.Application.CQRS.Commands
 {
-    public class CreateClanCommand : IRequest<Clan>
+    public class CreateClanRequest : IRequest<Clan>
     {
         public string Name { get; set; }
     }
 
-    public class CreateClanCommandHandler(IHttpContextAccessor httpContextAccessor, IAccountRepository accountRepository, IClanRepository clanRepository) : IRequestHandler<CreateClanCommand, Clan>
+    public class CreateClanCommandHandler(IHttpContextAccessor httpContextAccessor, IAccountRepository accountRepository, IClanRepository clanRepository) : IRequestHandler<CreateClanRequest, Clan>
     {
-        public async Task<Clan> Handle(CreateClanCommand command, CancellationToken cancellationToken)
+        public async Task<Clan> Handle(CreateClanRequest request, CancellationToken cancellationToken)
         {
             httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var token);
             var guid = Guid.Parse(token);
@@ -35,7 +35,7 @@ namespace GameNest.Application.CQRS.Commands
 
             var clan = new Clan()
             {
-                Name = command.Name,
+                Name = request.Name,
             };
 
             return await clanRepository.AddAsync(clan);

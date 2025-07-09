@@ -9,14 +9,14 @@ using MediatR;
 
 namespace GameNest.Application.CQRS.Queries
 {
-    public class GetPlayerByGuidRequest : IRequest<Account>
+    public class GetAccountByGuidRequest : IRequest<Account>
     {
         public Guid Id { get; set; }
     }
 
-    public class GetPlayerByGuidRequestHandler(IAccountRepository accountRepository) : IRequestHandler<GetPlayerByGuidRequest, Account>
+    public class GetAccountByGuidRequestHandler(IAccountRepository accountRepository) : IRequestHandler<GetAccountByGuidRequest, Account>
     {
-        public Task<Account> Handle(GetPlayerByGuidRequest request, CancellationToken cancellationToken)
+        public Task<Account> Handle(GetAccountByGuidRequest request, CancellationToken cancellationToken)
         {
             return accountRepository.GetByGuidAsync(request.Id);
         }

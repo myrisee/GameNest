@@ -15,15 +15,21 @@ namespace GameNest.Infrastructure.Authentication
     {
         private readonly JwtOptions _jwtOptions;
 
-        public JwtProvider(Microsoft.Extensions.Options.IOptions<JwtOptions> options)
+        public JwtProvider()
         {
-            _jwtOptions = options.Value;
-            Console.WriteLine($"[JwtProvider] Secret from config: '{_jwtOptions.Secret}'");
+            _jwtOptions = new JwtOptions
+            {
+                Secret = "super-secret-key-value-1234567890abcd!@#1234567890abcd",
+                Issuer = "Gatherly",
+                Audience = "Gatherly"
+            };
+            Console.WriteLine($"[JwtProvider] Secret from hardcoded: '{_jwtOptions.Secret}'");
         }
 
         public string GenerateToken(Account account)
         {
-            Console.WriteLine($"[JwtProvider.GenerateToken] Secret: '{_jwtOptions.Secret}'");
+            if (string.IsNullOrEmpty(_jwtOptions.Secret))
+                throw new InvalidOperationException("JWT secret is null or empty. Check your configuration.");
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier,account.Id.ToString()),

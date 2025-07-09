@@ -22,7 +22,7 @@ namespace GameNest.Api.Controllers
         }*/
 
         [HttpGet("guid")]
-        public async Task<AccountModel> GetPlayerByGuid([FromQuery] GetPlayerByGuidRequest request)
+        public async Task<AccountModel> GetPlayerByGuid([FromQuery] GetAccountByGuidRequest request)
         {
             var result = await mediator.Send(request);
             return mapper.Map<AccountModel>(result);

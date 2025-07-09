@@ -51,7 +51,18 @@ namespace GameNest.Persistence.Repository
 
         public async Task<Account> GetByGuidAsync(Guid id)
         {
-            return await context.Accounts.FindAsync(id);
+            return await context.Accounts
+                .Include(a => a.Items)
+                .ThenInclude(ii => ii.Item)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Main)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Secondary)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Chest)
+                .Include(a => a.Loadout)
+                .ThenInclude(l => l.Helmet)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public Task<Account?> GetByUsernameAsync(string username)

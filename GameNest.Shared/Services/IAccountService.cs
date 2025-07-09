@@ -1,10 +1,10 @@
 ﻿using GameNest.Shared.MessagePacks;
+using GameNest.Shared.ViewModels;
 using MagicOnion;
 
 namespace GameNest.Shared.Services;
 
 public interface IAccountService : IService<IAccountService>
 {
-    UnaryResult<LoginResponse> LoginAsync(LoginMessage message);
-    UnaryResult<RegisterResponse> RegisterAsync(RegisterMessage message);
+    UnaryResult<AccountModel> GetCurrentAccountAsync();
 }
